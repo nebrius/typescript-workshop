@@ -1,4 +1,5 @@
 import { json } from 'body-parser';
+import { IGetMemesPayload, IMeme } from 'common';
 import * as express from 'express';
 import { resolve } from 'path';
 import * as sqlite3 from 'sqlite3';
@@ -13,21 +14,29 @@ const db = new sqlite3.Database(':memory:');
 app.use(express.static(resolve(__dirname, '..', '..', 'client', 'dist')));
 app.use(json());
 
-app.get('/api/notes', (req, res) => {
-  db.all(`SELECT * FROM ${TABLE_NAME}`, (err, rows) => {
+app.get('/api/memes', (req, res) => {
+  db.all(`SELECT * FROM ${TABLE_NAME}`, (err, memes) => {
     if (err) {
       res.sendStatus(500);
       return;
     }
-    res.send(rows);
+    const payload: IGetMemesPayload = { memes };
+    res.send(payload);
   });
 });
 
-app.post('/api/notes', (req, res) => {
-  db.run(`INSERT INTO ${TABLE_NAME} (title, value) VALUES ("${req.body.title}", "${req.body.value}")`);
+app.post('/api/memes', (req, res) => {
+  const payload: IMeme = req.body;
+  db.run(`INSERT INTO ${TABLE_NAME} (name, url) VALUES ("${payload.name}", "${payload.url}")`, (err) => {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+    res.send('ok');
+  });
 });
 
-db.run(`CREATE TABLE ${TABLE_NAME} (title TEXT NOT NULL, value TEXT NOT NULL)`, (err) => {
+db.run(`CREATE TABLE ${TABLE_NAME} (name TEXT NOT NULL, url TEXT NOT NULL)`, (err) => {
   app.listen(3000, () => {
     console.log('Example app listening on port 3000!');
   });

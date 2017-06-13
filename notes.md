@@ -26,7 +26,7 @@ Add the following rules to tslint.json:
 
 Modify the following in tsconfig.json:
 Change target to "ES2015"
-Uncomment "sourceMap", "outDir" and set to "./dist", "noUnusedLocals", and "noImplicitReturns"
+Uncomment "sourceMap", "outDir" and set to "./dist", "rootDir" and set to "./src", "noUnusedLocals", and "noImplicitReturns"
 Uncomment the "Strict Type-Checking Options"
 
 Create npm build scripts
@@ -69,7 +69,7 @@ Add the following rules to tslint.json:
         "trailing-comma": "never"
 ```
 
-Uncomment "jsx" and set to "react", "sourceMap", "outDir" and set to "./dist", "noUnusedLocals", and "noImplicitReturns"
+Uncomment "jsx" and set to "react", "sourceMap", "outDir" and set to "./dist", "rootDir" and set to "./src", "noUnusedLocals", and "noImplicitReturns"
 Uncomment the "Strict Type-Checking Options"
 
 Create webpack.config.js:
@@ -125,21 +125,34 @@ Create src/index.tsx with hello world code from https://facebook.github.io/react
 
 ## Stage 2
 
-Server and minimal client (no generics):
+### Common
 
-Topics:
-- variable types
-- interfaces
-- classes
-
-In server:
+Create a folder called "common" to sit alongside "server" and "client" and open the folder in VS Code.
 
 ```
-npm install --save sqlite3 body-parser
+npm init
+npm install --save-dev typescript tslint @types/node
+```
+
+Copy tslint.json and tsconfig.json from server
+Uncomment "declarations" rule in tsconfig.json
+
+Copy build scripts from server's package.json
+Set "main" to "dist/index.js" and "types" to "dist/index.d.ts" in package.json
+
+Set up build command in VS Code. Ctrl/cmd+shift+p => "Configure task runner" => "npm", copy "test" as template for "build"
+
+Create a file called src/index.ts and add the code and build
+
+npm link
+
+### Server
+
+```
+npm install --save sqlite3 body-parser ../common/
 npm install --save-dev @types/sqlite3 @types/body-parser
+npm link common
 ```
-
-Then, create GET and POST API endpoint at /api/notes to get all notes and
 
 Install REST Client extension to test/develop the API, and create sample:
 
@@ -157,43 +170,13 @@ content-type: application/json
 }
 ```
 
-Add server endpoints:
+Add server endpoints, with payloads conforming to interfaces (see full file, too many changes to list here)
+
+### Client
 
 ```
-import { json } from 'body-parser';
-
-...
-
-import * as sqlite3 from 'sqlite3';
-
-...
-
-sqlite3.verbose();
-const db = new sqlite3.Database(':memory:');
-
-...
-
-app.use(json());
-
-app.get('/api/notes', (req, res) => {
-  db.all(`SELECT * FROM ${TABLE_NAME}`, (err, rows) => {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
-    res.send(rows);
-  });
-});
-
-app.post('/api/notes', (req, res) => {
-  db.run(`INSERT INTO ${TABLE_NAME} (title, value) VALUES ("${req.body.title}", "${req.body.value}")`);
-});
-
-db.run(`CREATE TABLE ${TABLE_NAME} (title TEXT NOT NULL, value TEXT NOT NULL)`, (err) => {
-  app.listen(3000, () => {
-    console.log('Example app listening on port 3000!');
-  });
-});
+npm install ../common/
+npm link common
 ```
 
 ## Stage 3
