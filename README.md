@@ -18,7 +18,7 @@ Before we begin the workshop, please make sure you have completed the following 
 
 ## Stage 1
 
-For stage 1, we are going to build a Hello World app that combines the client and server. For this stage, we will complete the following:
+For stage 1, we are going to build a Hello World app that combines the client and server. Specifically:
 
 - Create a build infrastructure for the server using the TypeScript compiler and [TSLint](https://github.com/palantir/tslint)
 - Create a build infrastructure for the client using [Webpack](https://webpack.github.io/), the TypeScript compiler, and TSLint.
@@ -28,6 +28,8 @@ For stage 1, we are going to build a Hello World app that combines the client an
 - Create a basic React hello world app that is served from our Express server
 
 ## Stage 2
+
+For stage 2, we are going to add the ability to create and view meme lists. Specifically:
 
 - Create a new npm module in the `common` folder for shared interfaces between the client and server
     - Configure the module to be built similarly to the server
@@ -43,7 +45,9 @@ For stage 1, we are going to build a Hello World app that combines the client an
 
 ## Stage 3
 
-_Note:_ This stage is a go-at-your-own pace stage. I will be available to help answer questions, but will not be leading attendees through step by step
+_Note:_ This stage is a go-at-your-own pace stage. I will be available to help answer questions, but will not be leading attendees through step by step.
+
+For stage 3, we are going to add more functionality to the app. Specifically:
 
 - Refactor the server:
     - Create a module responsible for interacting with SQLite
