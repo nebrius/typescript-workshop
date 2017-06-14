@@ -178,19 +178,3 @@ Add server endpoints, with payloads conforming to interfaces (see full file, too
 npm install ../common/
 npm link common
 ```
-
-## Stage 3
-
-Client side:
-
-Topics:
-- Generics
-- Arrays
-- dictionaries
--
-
-## Stage 4
-
-Topics:
-- Type Definitions
--
