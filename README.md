@@ -56,3 +56,7 @@ For stage 3, we are going to add more functionality to the app. Specifically:
 - Add new functionality to the client:
     - Now, instead of only selecting the first result from a search query, display all of the search results and let the user pick
     - To suppor the above, create a common `GridView` component that is used by the meme list in `ContainerView` and by the search results in this new view.
+- Add unit tests to the server and client:
+    - For the purposes of this workshop, don't worry about getting good code coverage numbers. It's more important to learn how to set up the build infrastructure properly so that you can write your unit tests in TypeScript.
+    - You should write the unit tests in TypeScript, and you should `require` modules from the main `src/` folder.
+    - Stretch goal: integrate code coverage into the unit tests
